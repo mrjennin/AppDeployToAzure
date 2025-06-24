@@ -1,0 +1,23 @@
+name: C# Build + Terraform Format
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Build C# Project
+      run: dotnet build app/azure-csharp-demo.csproj
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Format Terraform
+      run: terraform fmt -check
